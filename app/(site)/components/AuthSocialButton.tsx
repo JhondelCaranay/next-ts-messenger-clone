@@ -5,6 +5,8 @@ interface AuthSocialButtonProps {
   onClick: () => void;
 }
 
+console.log("AuthSocialButton");
+
 const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
   icon: Icon,
   onClick,
