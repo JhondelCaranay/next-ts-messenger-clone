@@ -8,18 +8,25 @@ import Input from "@/app/components/inputs/Input";
 import { z } from "zod";
 import Button from "@/app/components/Button";
 import AuthSocialButton from "./AuthSocialButton";
+import axios, { AxiosError } from "axios";
+import { toast } from "react-hot-toast";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 type Variant = "LOGIN" | "REGISTER";
 
 const schema = z.object({
   name: z.string().nonempty("Name is required").nullish(),
-  email: z.string().nonempty("Name is required").email("Email format is not valid"),
-  password: z.string().nonempty("Password is required"),
+  email: z.string(),
+  password: z.string(),
 });
 
 export type FormValues = z.infer<typeof schema> | FieldValues;
 
 const AuthForm = () => {
+  // const session = useSession();
+  const router = useRouter();
+
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -40,9 +47,17 @@ const AuthForm = () => {
   });
 
   useEffect(() => {
-    reset();
-    variant === "LOGIN" ? setValue("name", null) : setValue("name", "");
+    reset({
+      name: variant === "LOGIN" ? null : "",
+      email: "",
+      password: "",
+    });
+    // variant === "LOGIN" ? setValue("name", "") : setValue("name", "");
   }, [variant]);
+
+  // if (errors) {
+  //   console.log(errors);
+  // }
 
   /* switch between login and register */
   const toggleVariant = useCallback(() => {
@@ -50,32 +65,78 @@ const AuthForm = () => {
   }, [variant]);
 
   const onSubmit = async (data: FormValues) => {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    console.log({ data });
+    setIsLoading(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     if (variant === "LOGIN") {
-      // Axios Register
+      signIn("credentials", {
+        ...data,
+        redirect: false,
+      })
+        .then((callback) => {
+          console.log({ callback });
+
+          if (callback?.error) {
+            // toast.error("Invalid credentials!");
+            toast.error(callback?.error);
+          } else if (callback?.ok && !callback?.error) {
+            // router.push("/conversations");
+            toast.success("success");
+          }
+        })
+        .finally(() => setIsLoading(false));
     }
     if (variant === "REGISTER") {
-      // Next auth sign in
+      // Axios Register
+      axios
+        .post("/api/register", data)
+        // .then(() =>
+        //   signIn("credentials", {
+        //     ...data,
+        //     redirect: false,
+        //   })
+        // )
+        // .then((callback) => {
+        //   console.log({ callback });
+        //   if (callback?.error) {
+        //     toast.error("Invalid credentials!");
+        //   }
+        //   if (callback?.ok) {
+        //     router.push("/conversations");
+        //   }
+        // })
+        .catch((e) => {
+          // console.log(e);
+          if (e instanceof AxiosError) {
+            // console.log(e.response?.data);
+            toast.error(e.response?.data);
+          } else if (e instanceof Error) {
+            toast.error(e.message);
+          } else {
+            toast.error("Something went wrong!");
+          }
+        })
+        .finally(() => setIsLoading(false));
     }
 
+    setIsLoading(false);
     reset();
   };
 
   /* social login */
   const socialAction = (action: string) => {
-    // setIsLoading(true);
-    // signIn(action, { redirect: false })
-    //   .then((callback) => {
-    //     if (callback?.error) {
-    //       toast.error("Invalid credentials!");
-    //     }
-    //     if (callback?.ok) {
-    //       router.push("/conversations");
-    //     }
-    //   })
-    //   .finally(() => setIsLoading(false));
+    setIsLoading(true);
+    signIn(action, { redirect: false })
+      .then((callback) => {
+        if (callback?.error) {
+          toast.error("Invalid credentials!");
+        }
+        if (callback?.ok && !callback?.error) {
+          // router.push("/conversations");
+          toast.success("success");
+        }
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -121,6 +182,7 @@ const AuthForm = () => {
           <div>
             <Button disabled={isLoading || isSubmitting} fullWidth type="submit">
               {variant === "LOGIN" ? "Sign in" : "Register"}
+              {isLoading || isSubmitting ? <div className="animate-spin ml-1">🌀</div> : null}
             </Button>
           </div>
         </form>
