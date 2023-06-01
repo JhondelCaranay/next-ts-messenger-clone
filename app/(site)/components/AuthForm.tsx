@@ -24,7 +24,7 @@ const schema = z.object({
 export type FormValues = z.infer<typeof schema> | FieldValues;
 
 const AuthForm = () => {
-  // const session = useSession();
+  const session = useSession();
   const router = useRouter();
 
   const [variant, setVariant] = useState<Variant>("LOGIN");
@@ -55,9 +55,11 @@ const AuthForm = () => {
     // variant === "LOGIN" ? setValue("name", "") : setValue("name", "");
   }, [variant]);
 
-  // if (errors) {
-  //   console.log(errors);
-  // }
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      router.push("/users");
+    }
+  }, [session?.status, router]);
 
   /* switch between login and register */
   const toggleVariant = useCallback(() => {
@@ -80,7 +82,7 @@ const AuthForm = () => {
             // toast.error("Invalid credentials!");
             toast.error(callback?.error);
           } else if (callback?.ok && !callback?.error) {
-            // router.push("/conversations");
+            router.push("/users");
             toast.success("success");
           }
         })
@@ -90,21 +92,21 @@ const AuthForm = () => {
       // Axios Register
       axios
         .post("/api/register", data)
-        // .then(() =>
-        //   signIn("credentials", {
-        //     ...data,
-        //     redirect: false,
-        //   })
-        // )
-        // .then((callback) => {
-        //   console.log({ callback });
-        //   if (callback?.error) {
-        //     toast.error("Invalid credentials!");
-        //   }
-        //   if (callback?.ok) {
-        //     router.push("/conversations");
-        //   }
-        // })
+        .then(() =>
+          signIn("credentials", {
+            ...data,
+            redirect: false,
+          })
+        )
+        .then((callback) => {
+          console.log({ callback });
+          if (callback?.error) {
+            toast.error("Invalid credentials!");
+          }
+          if (callback?.ok) {
+            router.push("/users");
+          }
+        })
         .catch((e) => {
           // console.log(e);
           if (e instanceof AxiosError) {
@@ -132,7 +134,7 @@ const AuthForm = () => {
           toast.error("Invalid credentials!");
         }
         if (callback?.ok && !callback?.error) {
-          // router.push("/conversations");
+          router.push("/users");
           toast.success("success");
         }
       })
