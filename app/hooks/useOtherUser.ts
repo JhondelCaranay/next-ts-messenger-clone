@@ -14,6 +14,7 @@ const useOtherUser = (conversation: FullConversationType | { users: User[] }) =>
     return otherUser[0];
   }, [session.data?.user?.email, conversation.users]);
 
+  // exclude current user from users array
   return otherUser;
 };
 

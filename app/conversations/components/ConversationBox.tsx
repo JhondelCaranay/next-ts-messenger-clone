@@ -80,6 +80,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({ data, selected }) => 
       )}
     >
       {/* {data.isGroup ? <AvatarGroup users={data.users} /> : <Avatar user={otherUser} />} */}
+      <Avatar user={otherUser} />
       <div className="min-w-0 flex-1">
         <div className="focus:outline-none">
           <span className="absolute inset-0" aria-hidden="true" />
