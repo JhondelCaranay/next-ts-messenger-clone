@@ -14,6 +14,7 @@ export const env = createEnv({
   },
   client: {
     //     NEXT_PUBLIC_PUBLISHABLE_KEY: z.string().min(1),
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().min(1),
   },
   runtimeEnv: {
     // DATABASE_URL: process.env.DATABASE_URL,
@@ -25,5 +26,6 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NODE_ENV: process.env.NODE_ENV,
+    NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   },
 });

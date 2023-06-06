@@ -1,3 +1,6 @@
+"use client";
+
+import Avatar from "@/app/components/Avatar";
 import useOtherUser from "@/app/hooks/useOtherUser";
 import { Conversation, User } from "@prisma/client";
 import Link from "next/link";
@@ -63,6 +66,7 @@ const Header = ({ conversation }: HeaderProps) => {
           ) : (
             <Avatar user={otherUser} />
           )} */}
+          <Avatar user={otherUser} />
           <div className="flex flex-col">
             <div>{conversation.name || otherUser.name}</div>
             <div className="text-sm font-light text-neutral-500">{statusText}</div>
@@ -70,7 +74,7 @@ const Header = ({ conversation }: HeaderProps) => {
         </div>
         <HiEllipsisHorizontal
           size={32}
-          onClick={() => setDrawerOpen(true)}
+          onClick={() => {}}
           className="
             text-sky-500
             cursor-pointer
