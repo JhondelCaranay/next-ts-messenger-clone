@@ -25,6 +25,8 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
       .finally(() => setIsLoading(false));
   }, [data, router]);
 
+  
+
   return (
     <>
       {isLoading && <div>load</div>}

@@ -50,7 +50,11 @@ const Form = () => {
         w-full
       "
     >
-      <CldUploadButton options={{ maxFiles: 1 }} onUpload={handleUpload} uploadPreset="pgc9ehd5">
+      <CldUploadButton
+        options={{ maxFiles: 1, maxFileSize: 5000000 }}
+        onUpload={handleUpload}
+        uploadPreset="shtukw5q"
+      >
         <HiPhoto size={30} className="text-sky-500" />
       </CldUploadButton>
       <form onSubmit={handleSubmit(onSubmit)} className="flex items-center gap-2 lg:gap-4 w-full">
