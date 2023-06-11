@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { HiChevronLeft } from "react-icons/hi";
 import { HiEllipsisHorizontal } from "react-icons/hi2";
+import ProfileDrawer from "./ProfileDrawer";
 
 type HeaderProps = {
   conversation: Conversation & {
@@ -31,7 +32,7 @@ const Header = ({ conversation }: HeaderProps) => {
 
   return (
     <>
-      {/* <ProfileDrawer data={conversation} isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} /> */}
+      <ProfileDrawer data={conversation} isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
       <div
         className="
           bg-white 
@@ -74,7 +75,7 @@ const Header = ({ conversation }: HeaderProps) => {
         </div>
         <HiEllipsisHorizontal
           size={32}
-          onClick={() => {}}
+          onClick={() => setDrawerOpen(true)}
           className="
             text-sky-500
             cursor-pointer
