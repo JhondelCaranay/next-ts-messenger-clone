@@ -1,7 +1,10 @@
+import "server-only";
+
+import { cache } from "react";
 import { prisma } from "../libs/db";
 import getCurrentUser from "./getCurrentUser";
 
-const getConversations = async () => {
+const getConversations = cache(async () => {
   const currentUser = await getCurrentUser();
 
   if (!currentUser?.id) {
@@ -9,7 +12,7 @@ const getConversations = async () => {
   }
 
   try {
-    const conversations = await prisma.conversation.findMany({ 
+    const conversations = await prisma.conversation.findMany({
       orderBy: {
         lastMessageAt: "desc",
       },
@@ -33,6 +36,6 @@ const getConversations = async () => {
   } catch (error: any) {
     return [];
   }
-};
+});
 
 export default getConversations;

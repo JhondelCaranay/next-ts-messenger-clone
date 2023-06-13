@@ -1,7 +1,10 @@
+import "server-only";
+
 import { prisma } from "../libs/db";
 import getCurrentUser from "./getCurrentUser";
+import { cache } from "react";
 
-const getConversationById = async (conversationId: string) => {
+const getConversationById = cache(async (conversationId: string) => {
   try {
     const currentUser = await getCurrentUser();
 
@@ -23,6 +26,6 @@ const getConversationById = async (conversationId: string) => {
     console.log(error, "SERVER_ERROR");
     return null;
   }
-};
+});
 
 export default getConversationById;

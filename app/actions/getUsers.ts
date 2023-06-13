@@ -1,7 +1,10 @@
+import "server-only";
+
 import { prisma } from "@/app/libs/db";
 import getSession from "./getSession";
+import { cache } from "react";
 
-const getUsers = async () => {
+const getUsers = cache(async () => {
   const session = await getSession();
 
   if (!session?.user?.email) {
@@ -24,6 +27,6 @@ const getUsers = async () => {
   } catch (error: any) {
     return [];
   }
-};
+});
 
 export default getUsers;

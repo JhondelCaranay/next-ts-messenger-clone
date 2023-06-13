@@ -1,6 +1,9 @@
-import { prisma } from "../libs/db";
+import "server-only";
 
-const getMessages = async (conversationId: string) => {
+import { prisma } from "../libs/db";
+import { cache } from "react";
+
+const getMessages = cache( async (conversationId: string) => {
   try {
     const messages = await prisma.message.findMany({
       where: {
@@ -19,6 +22,6 @@ const getMessages = async (conversationId: string) => {
   } catch (error: any) {
     return [];
   }
-};
+});
 
 export default getMessages;
