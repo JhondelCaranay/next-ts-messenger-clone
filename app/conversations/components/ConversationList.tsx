@@ -78,7 +78,7 @@ const ConversationList: React.FC<ConversationListProps> = ({ initialItems, users
 
   return (
     <>
-      {/* <GroupChatModal users={users} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} /> */}
+      <GroupChatModal users={users} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       <aside
         className={clsx(
           `
