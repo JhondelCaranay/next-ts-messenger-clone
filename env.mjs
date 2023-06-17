@@ -11,10 +11,13 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: z.string().min(1),
     NEXTAUTH_SECRET: z.string().min(1),
     NODE_ENV: z.string().min(1),
+    PUSHER_APP_ID: z.string().min(1),
+    PUSHER_SECRET: z.string().min(1),
   },
   client: {
     //     NEXT_PUBLIC_PUBLISHABLE_KEY: z.string().min(1),
     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: z.string().min(1),
+    NEXT_PUBLIC_PUSHER_APP_KEY: z.string().min(1),
   },
   runtimeEnv: {
     // DATABASE_URL: process.env.DATABASE_URL,
@@ -26,6 +29,9 @@ export const env = createEnv({
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     NODE_ENV: process.env.NODE_ENV,
+    PUSHER_APP_ID: process.env.PUSHER_APP_ID,
+    PUSHER_SECRET: process.env.PUSHER_SECRET,
+    NEXT_PUBLIC_PUSHER_APP_KEY: process.env.NEXT_PUBLIC_PUSHER_APP_KEY,
     NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
   },
 });

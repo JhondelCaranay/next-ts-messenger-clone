@@ -23,7 +23,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, currentU
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log(currentUser, "&TEST_CURRENT_USER");
+  // console.log(currentUser, "&TEST_CURRENT_USER");
 
   const {
     register,
@@ -58,7 +58,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, currentU
       .catch(() => toast.error("Something went wrong!"))
       .finally(() => setIsLoading(false));
   };
- 
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <form onSubmit={handleSubmit(onSubmit)}>
