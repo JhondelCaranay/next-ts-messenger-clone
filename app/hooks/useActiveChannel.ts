@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { pusherClient } from "../libs/pusherServer";
 import { Channel, Members } from "pusher-js";
 import useActiveList from "./useActiveList";
+import { pusherClient } from "../libs/pusherClient";
+import { useRouter } from "next/router";
 
 const useActiveChannel = () => {
   const { set, add, remove } = useActiveList();

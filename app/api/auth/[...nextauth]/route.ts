@@ -49,7 +49,7 @@ export const authOptions: AuthOptions = {
       },
     }),
   ],
-  debug: env.NODE_ENV === "development",
+  // debug: env.NODE_ENV === "development",
   session: {
     strategy: "jwt",
   },

@@ -1,5 +1,7 @@
 import "server-only";
 
+import "server-only";
+
 import { prisma } from "../libs/db";
 import { cache } from "react";
 

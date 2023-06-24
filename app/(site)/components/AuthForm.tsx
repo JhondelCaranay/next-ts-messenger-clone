@@ -30,6 +30,12 @@ const AuthForm = () => {
   const [variant, setVariant] = useState<Variant>("LOGIN");
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      router.push("/users");
+    }
+  }, [session?.status, router]);
+
   /* hook form */
   const {
     register,
@@ -55,12 +61,6 @@ const AuthForm = () => {
     // variant === "LOGIN" ? setValue("name", "") : setValue("name", "");
   }, [variant]);
 
-  useEffect(() => {
-    if (session?.status === "authenticated") {
-      router.push("/users");
-    }
-  }, [session?.status, router]);
-
   /* switch between login and register */
   const toggleVariant = useCallback(() => {
     variant === "LOGIN" ? setVariant("REGISTER") : setVariant("LOGIN");
@@ -74,6 +74,7 @@ const AuthForm = () => {
       signIn("credentials", {
         ...data,
         redirect: false,
+        callbackUrl: "/users",
       })
         .then((callback) => {
           console.log({ callback });
@@ -82,8 +83,9 @@ const AuthForm = () => {
             // toast.error("Invalid credentials!");
             toast.error(callback?.error);
           } else if (callback?.ok && !callback?.error) {
-            router.push("/users");
             toast.success("success");
+            window.location.href = callback?.url as string;
+            // router.push(callback.url as string);
           }
         })
         .finally(() => setIsLoading(false));
@@ -127,18 +129,26 @@ const AuthForm = () => {
 
   /* social login */
   const socialAction = (action: string) => {
-    setIsLoading(true);
-    signIn(action, { redirect: false })
-      .then((callback) => {
-        if (callback?.error) {
-          toast.error("Invalid credentials!");
-        }
-        if (callback?.ok && !callback?.error) {
-          router.push("/users");
-          toast.success("success");
-        }
-      })
-      .finally(() => setIsLoading(false));
+    // setIsLoading(true);
+    signIn(action, {
+      callbackUrl: "/users",
+    }); // { redirect: false }
+    // .then((callback) => {
+    //   console.log("🚀 ~ file: AuthForm.tsx:134 ~ .then ~ callback:", callback);
+    //   if (callback?.error) {
+    //     console.log("🚀 ~ file: AuthForm.tsx:137 ~ .then ~ callback?.error:", callback?.error);
+    //     toast.error("Invalid credentials!");
+    //   }
+    //   if (callback?.ok && !callback?.error) {
+    //     console.log(
+    //       "🚀 ~ file: AuthForm.tsx:139 ~ .then ~ callback?.ok && !callback?.error:",
+    //       callback?.ok && !callback?.error
+    //     );
+    //     toast.success("success");
+    //     router.push("/unknown");
+    //   }
+    // })
+    // .finally(() => setIsLoading(false));
   };
 
   return (

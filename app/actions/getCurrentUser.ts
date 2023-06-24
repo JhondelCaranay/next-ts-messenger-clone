@@ -1,3 +1,5 @@
+import "server-only";
+
 import { prisma } from "@/app/libs/db";
 import getSession from "./getSession";
 
